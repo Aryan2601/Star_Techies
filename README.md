@@ -5,7 +5,9 @@
 1. Admin should be able to update details of customer and delete customer data
 
 	a.) Create a table to store the details
+	
 	b.)  Create Upload section to add details of customer
+	
 2. User can check bill and pay the amount via Paytm/Cash
 3. User can check for previous month bill details with help of meter id
 4. User can generate complaint and admin will have access to complaint box 
