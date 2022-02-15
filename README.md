@@ -9,7 +9,7 @@
 
 | Week    | Work | Duration | 
 | ----------- | ----------- | -----------|
-|  1       | Use Case Diagram and ER Diagram      | 1.5 Hr |
+|  1       | Use Case Diagram and ER Diagram      | 3.0 Hr |
 
 
 
