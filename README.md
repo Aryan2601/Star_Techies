@@ -2,17 +2,19 @@
 
 ### User Stories
 
-1. Admin should be able to update details of customer and delete customer data
+1. Admin should be able to update details of the customer and delete customer data.
 
-	a.) Create a table to store the details
-	
-	b.)  Create Upload section to add details of customer
-	
-2. User can check bill and pay the amount via Paytm/Cash
-3. User can check for previous month bill details with help of meter id
-4. User can generate complaint and admin will have access to complaint box 
-   he can delete complaint
-5. Admin will create new customers and assign meter id 
+	a.) Create a table to store the details.
+
+	b.) Create an Upload section to add details of customers.
+
+2. Users can check bills and pay the amount via Paytm/Cash
+
+3. Users can check for the previous month's bill details with help of a meter ID.
+
+4. User can generate complaint and admin will have access to complain box, he can delete the complaint.
+
+5. Admin will create new customers and assign meter ID.
 
 ***
 
