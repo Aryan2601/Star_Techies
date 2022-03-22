@@ -33,6 +33,7 @@
 | Week    | Work | Duration | 
 | ----------- | ----------- | -----------|
 |  1       | Use Case Diagram and ER Diagram      | 2.5 Hr |
+|  2      | Class Diagram      | 2.5 Hr |
 
 ***
 ### Class Diagram
