@@ -1,4 +1,4 @@
-#User Stories
+User Stories
 
 1. Admin should be able to update details of the customer and delete customer data.
 
