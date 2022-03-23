@@ -1,9 +1,10 @@
 ## Meeting Notes
 
-Meeting Hours 
 
-Use Case Diagram : 1.5 hrs
+Meeting Hours
 
-ER Diagram : 1 hr
-
-User Stories 30 minutes
+| Meeting Day        | Reason         | Time  |
+| ------------- |:-------------:| -----:|
+| Day 1     | Created Use Case Diagram  | 1.5 hrs |
+| Day 2  | Created ER Diagram    |   1 hr |
+| Day 3  | Created User Stories  |   30 minutes |
