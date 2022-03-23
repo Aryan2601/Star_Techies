@@ -1,0 +1,24 @@
+We started to develop the electric billing system that will be efficient for both customer and provider of the service 
+the main thing we are focusing on is the meter id since one customer may have one or more meters.
+
+>We made the class diagram in that we discussed the scope of the our software.
+
+>>Class Diagarm:
+>Area Class-->we thougt of having like for one area we will have one admin so that the job will be easy
+
+>user Details Class: which consists of the general things of an user such as name,id,email,adress and phone 
+number and has some functionalities such as adduser which is used for registering a nwe user and delete user and 
+edit user.
+
+>Customer Class and Admin class inherits the some of the properties of the user details class so we'
+have created an inhertance relation between user details class and customer class,user details class and admin class
+
+>Bill class: it consists of the attributes meter_id,amount,Bill_id,payment method which depends upon the customer class
+and has an composition relation on Meter class and it has visibility as 1 to n with respect to customer class
+
+>Meter Class: it consists of meter_id,units consumed and adress and customer if which also depends upon the customer class and
+area class and has an association relation with admin class of visibility 1 to n.
+
+>complaint class: It consists of meter_id and compilant type,complaint status which is used for to raise the 
+complaint regarding any issues which has dependency on admin class and meter class so that an admin can delete or
+edit compliant where as a customer can see the status and edit his/her complaint
