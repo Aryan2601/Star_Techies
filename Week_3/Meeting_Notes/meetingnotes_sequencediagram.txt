@@ -1,0 +1,16 @@
+>We made sequence diagram that will help us to understand how and what order the group of objects work together.
+
+>>Sequence diagram:
+
+>Alternate box : The upper portion of the box will be labeled if the login is valid and the lower portion will say else.This says that if the valid is login then database tell
+the application valid and proceed to next or else give invalid.
+
+>Dashed line represent reply to previous message.
+
+>Noraml line represent request.
+
+>Activation box : We put a box from first to last message on a lifeline. We will do same for both application and database.From this we can say database is less active than the 
+application.
+
+>>Here in this sequence diagram customer will get the details he wanted by first logging in and then editing the details or just seeing the details this is all done in a 
+sequential manner.
