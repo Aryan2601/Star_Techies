@@ -1,5 +1,5 @@
 import sqlite3
-connection = sqlite3.connect("database.db")
+connection = sqlite3.connect("ElectricityBillingSystem.db")
 
 def writeondb(username,password,aadhar,address,radio_button):
     if (radio_button == 1):
@@ -7,7 +7,7 @@ def writeondb(username,password,aadhar,address,radio_button):
     else:
         payment = "postpaid"
     
-    connection = sqlite3.connect("database.db")
+    connection = sqlite3.connect("ElectricityBillingSystem.db")
     with connection:
         cursor = connection.cursor()
     
@@ -19,7 +19,7 @@ def addbill(ID,bill,fine):
     ID = (str)(ID)
     bill = (str)(bill)
     fine = (str)(fine)
-    connection = sqlite3.connect('database.db')
+    connection = sqlite3.connect('ElectricityBillingSystem.db')
     with connection:
         cursor = connection.cursor()
     cursor.execute('UPDATE Customer SET Bill = ? WHERE ID = ?',(bill,ID))
@@ -29,7 +29,7 @@ def addbill(ID,bill,fine):
 def update_unit(ID):
     ID = (str)(ID)
   
-    connection = sqlite3.connect('Form.db')
+    connection = sqlite3.connect('ElectricityBillingSystem.db')
     with connection:
         cursor = connection.cursor()
     cursor.execute('UPDATE Customer SET Units = 0 WHERE ID = ?',(ID))
@@ -43,7 +43,7 @@ def update_customer_admin(ID,username,password,address,units,month):
     Month = (str)(month)
 
     
-    connection = sqlite3.connect('Form.db')
+    connection = sqlite3.connect('ElectricityBillingSystem.db')
     with connection:
         cursor = connection.cursor()
 
