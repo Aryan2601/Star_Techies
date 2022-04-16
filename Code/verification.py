@@ -21,20 +21,9 @@ def login_verify(username,aadhar,password):
 
     
 def admin_login_verify(username,password):
-    conn = sqlite3.connect('Form.db')
-    with conn:
-        cursor = conn.cursor()
-    cursor.execute('SELECT username,password FROM Admin')
-    records = cursor.fetchall()
-    check = 0
-    
-    
-    for row in records:
-        if(username == "Admin" and password == "Admin"):
+ 
+    if(username == "Admin" and password == "Admin"):
             
-            check = 1
-            break
-
-    
-    
+        check = 1
+        
     return check
