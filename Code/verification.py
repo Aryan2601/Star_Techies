@@ -21,7 +21,7 @@ def login_verify(username,aadhar,password):
 
     
 def admin_login_verify(username,password):
- 
+    check=0
     if(username == "Admin" and password == "Admin"):
             
         check = 1

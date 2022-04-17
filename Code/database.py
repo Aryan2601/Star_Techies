@@ -15,6 +15,28 @@ def writeondb(username,password,aadhar,address,radio_button):
     cursor.execute('INSERT INTO Customer (Username,Password,aadhar_number,Address,payment_mode) VALUES(?,?,?,?,?)',(username,password,aadhar,address,payment))
     connection.commit()
 
+def making_complaint(ID,username,text):
+    connection = sqlite3.connect("ElectricityBillingSystem.db")
+    with connection:
+        cursor = connection.cursor()
+    cursor.execute('Create TABLE Complaint(ID integer PRIMARY KEY AUTOINCREMENT, Issue TEXT')
+    cursor.execute('INSERT INTO Complaint(ID,Issue) VALUES(?,?)')
+    connection.commit()
+
+def view_complaints():
+    connection = sqlite3.connect("ElectricityBillingSystem.db")
+    with connection:
+        cursor = connection.cursor()
+    cursor.execute('Select * from Complaint')
+    connection.commit()
+
+def delete_complaint(ID):
+    connection = sqlite3.connect("ElectricityBillingSystem.db")
+    with connection:
+        cursor = connection.cursor()
+    cursor.execute('Delete * from Complaint where ID=?',(ID))
+    connection.commit()
+
 def addbill(ID,bill,fine):
     ID = (str)(ID)
     bill = (str)(bill)

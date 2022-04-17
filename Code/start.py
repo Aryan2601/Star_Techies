@@ -3,6 +3,7 @@ from database import *
 from verification import *
 from data import *
 from calc import *
+from PIL import ImageTk,Image
 from functools import partial
 
 def register_user():
@@ -260,9 +261,9 @@ def User_account_screen(ID):
     
     
     Button(user_screen,text="CALCULATE BILL",bg = "#91EAE3",height="2", width="300", command = partial(calculate_bill,ID)).pack()
+    Button(user_screen,text="Complaint box",bg = "#91EAE3",height="2", width="300", command = partial(make_complaint,ID)).pack()
     Button(user_screen,text="LOGOUT",bg = "#91EAE3",height="2", width="300", command =logout_dialog).pack()
 
- 
 
 def logout_dialog():
     print("Enter")
@@ -285,9 +286,38 @@ def calculate_bill(ID):
     Label(bill_screen,text = "Total amount to be paid:"+(str)(bill),bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
     Label(bill_screen,text = "Fine included in total amount:"+(str)(fine),bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
     
-    Button(bill_screen,text="PAY:"+(str)(bill),bg = "#91EAE3",height="2", width="300", command =partial(bill_payment,ID)).pack()
+    Button(bill_screen,text="PAY:"+(str)(bill),bg = "#91EAE3",height="2", width="300", command =partial(bill_payment,ID)).pack()   
     Button(bill_screen,text="CLOSE",bg = "#91EAE3",height="2", width="300", command =close_bill_screen).pack()
 
+
+def make_complaint(username):
+    global make_complaint_screen
+    make_complaint_screen = Toplevel(main_screen) 
+    make_complaint_screen.title("Making complaint")
+    make_complaint_screen.geometry("500x500")
+    global complaint
+    complaint = StringVar
+
+    username_label = Label(make_complaint_screen,text="Enter your username")
+    username_label.pack()
+    username_entry= Entry(make_complaint_screen, textvariable=username)
+    username_entry.pack()
+   
+# Set complaint label
+    complaint_lable = Label(make_complaint_screen, text=" Enter your complaint ")
+    complaint_lable.pack()
+    
+# Set complaint entry
+    complaint_entry = Entry(make_complaint_screen, textvariable=complaint)
+    complaint_entry.pack()
+
+    set_radioButton()
+
+    
+    Label(make_complaint_screen, text="").pack()
+    
+    # Set register button
+    Button(make_complaint_screen, text="Submit", width=20, height=2, bg="#fcb603",command = making_complaint).pack()
 
 
     
@@ -568,28 +598,31 @@ def main_account_screen():
  
     
     main_screen = Tk()
-    main_screen.geometry("300x250")
+    main_screen.geometry("800x700")
     main_screen.title("main_screen")
  
     # create a Form label 
     Label(text="Electricity Billing system", bg="#fcb603", width="300", height="2", font=("Calibri", 13)).pack() 
     Label(text="").pack() 
-    
     # create Login Button 
     Button(text="Login", height="2", width="30", command = login_screen).pack()
     Label(text="").pack() 
-
-    
-   
-
 
 
     Button(text="Register", height="2", width="30", command=register).pack()
     Label(text = "").pack()
     Button(text = "Admin Login",height = "2",width = "30",command = admin_login_screen).pack()
-    
-    
-    
+    my_canvas = Canvas(main_screen,width = 800 , height = 700)
+    my_canvas.pack(fill = "both" , expand= True)
+    bg = ImageTk.PhotoImage(file = "C:/Chethan/My first git project/Star_Techies/Code/elctric.jpg")
+    #set image in canvas
+    my_canvas.create_image(0,0,image = bg,anchor="nw")
+    def resizer(e):
+        global bg1,resized_bg,new_bg
+        bg1 = Image.open("C:/Chethan/My first git project/Star_Techies/Code/elctric.jpg")
+        resized_bg =bg1.resize((e.width,e.height))
+        new_bg = ImageTk.PhotoImage(resized_bg)
+        my_canvas.create_image(0,0,image = new_bg,anchor="nw")
     main_screen.mainloop()
  
 main_account_screen()
