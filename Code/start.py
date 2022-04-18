@@ -1,4 +1,7 @@
 from tkinter import *
+from tkinter import ttk
+from colorama import Cursor
+from numpy import delete
 from database import *
 from verification import *
 from data import *
@@ -8,14 +11,15 @@ from functools import partial
 
 def register_user():
     c = 0
-    username_info = username.get()
+    userID_info = userID.get()
+    Name_info = Name.get()
     password_info = password.get()
     address_info = address.get()
     aadhar_info = aadhar.get()
     radiobutton_info = var.get()
     print(radiobutton_info)
 
-    if( len(username_info)>0  and len(password_info)>0 and len(address_info)>0  and len(aadhar_info)>0  and radiobutton_info !=0):
+    if( len(userID_info)>0 and len(Name_info)>0  and len(password_info)>0 and len(address_info)>0  and len(aadhar_info)>0  and radiobutton_info !=0):
 
         if(len(password_info)<8):
             invalid_password_register()
@@ -30,7 +34,7 @@ def register_user():
 
         if(c == 1):
             
-            writeondb(username_info,password_info,aadhar_info,address_info,radiobutton_info)
+            writeondb(userID_info,Name_info,password_info,aadhar_info,address_info,radiobutton_info)
             #print("registeration success")
             register_success()
 
@@ -104,29 +108,38 @@ def register():
     register_screen.geometry("500x500")
  
 # Set text variables
-    global username
-    username = StringVar()
+    global Name
+    Name = StringVar()
     global password 
     password = StringVar()
     global address 
     address = StringVar()
     global aadhar 
     aadhar = StringVar()
-
+    global userID
+    userID = StringVar()
  
 # Set label for user's instruction
     Label(register_screen, text="Please enter details below", bg="#fcb603").pack()
     Label(register_screen, text="").pack()
     
-# Set username label
-    username_lable = Label(register_screen, text="Username ")
-    username_lable.pack()
+    userID_lable = Label(register_screen, text="UserID ")
+    userID_lable.pack()
  
 # Set username entry
 # The Entry widget is a standard Tkinter widget used to enter or display a single line of text.
     
-    username_entry = Entry(register_screen, textvariable=username)
-    username_entry.pack()
+    userID_entry = Entry(register_screen, textvariable=userID)
+    userID_entry.pack()
+# Set username label
+    Name_lable = Label(register_screen, text="Name ")
+    Name_lable.pack()
+ 
+# Set username entry
+# The Entry widget is a standard Tkinter widget used to enter or display a single line of text.
+    
+    Name_entry = Entry(register_screen, textvariable=Name)
+    Name_entry.pack()
    
 # Set password label
     password_lable = Label(register_screen, text="Password * ")
@@ -176,27 +189,25 @@ def set_radioButton():
     R1.pack()
     R2 = Radiobutton(register_screen, text="Postpaid", variable=var, value=2)
     R2.pack()
-
 active_account_status = 0
 
 
 def login_verification():
-    
-    username = username_verify.get()
+    userID=userID_verify.get()
     password = password_verify.get()
     aadhar_number = aadhar_verify.get()
     global active_account_status
     
     if(active_account_status == 0):
 
-        if((len(username)>0 or len(aadhar_number)>0) and len(password)>0): 
-            ID,check = login_verify(username,aadhar_number,password)
+        if((len(userID)>0 and len(aadhar_number)>0) and len(password)>0): 
+            ID,check = login_verify(userID,aadhar_number,password)
 
             
             if(check == 1):
                 active_account_status = 1
                 login_successful()
-                User_account_screen(ID)
+                User_account_screen(userID)
 
             else:
                 login_verify_failed()
@@ -240,7 +251,7 @@ def User_account_screen(ID):
     
     record = []
     records = get_data(ID)
-    #print(len(records[0]))
+    print(len(records[0]))
     for i in range(0,len(records[0])):
         record.append(records[0][i])
 
@@ -250,7 +261,7 @@ def User_account_screen(ID):
     user_screen.title("User Account")
     user_screen.geometry("400x400")
     Label(user_screen,text = "Customer Details",bg="#fcb603", width="300", height="2", font=("Calibri", 13)).pack()
-    #Label(user_screen,text = "").pack()
+    Label(user_screen,text = "").pack()
 
     Label(user_screen,text = "USERNAME:"+record[0],bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
     Label(user_screen,text = "UNIQUE IDENTIFICATION NUMBER:"+record[1],bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
@@ -261,7 +272,7 @@ def User_account_screen(ID):
     
     
     Button(user_screen,text="CALCULATE BILL",bg = "#91EAE3",height="2", width="300", command = partial(calculate_bill,ID)).pack()
-    Button(user_screen,text="Complaint box",bg = "#91EAE3",height="2", width="300", command = partial(make_complaint,ID)).pack()
+    Button(user_screen,text="Complaint box",bg = "#91EAE3",height="2", width="300", command = make_complaint).pack()
     Button(user_screen,text="LOGOUT",bg = "#91EAE3",height="2", width="300", command =logout_dialog).pack()
 
 
@@ -271,7 +282,27 @@ def logout_dialog():
     active_account_status = 0
     user_screen.destroy()
     
-    
+def admin_options():
+    global admin_options_screen
+    admin_options_screen = Toplevel(main_screen)
+    admin_options_screen.title("Admin options")
+    admin_options_screen.geometry("300x200")
+    Label(admin_options_screen,text = "Choose from below").pack()
+    Label(admin_options_screen,text = "").pack()
+    Button(admin_options_screen,text = "Update customer details:",command = update_customer).pack()
+    Label(admin_options_screen,text = "").pack()
+    Button(admin_options_screen,text = "  View complaint box:  ",command = seeing_complaints).pack()
+    Label(admin_options_screen,text = "").pack()
+    Button(admin_options_screen,text = "Delete complaint:",command = deleting_complaint).pack()
+    Label(admin_options_screen,text = "").pack()
+    Button(admin_options_screen,height = "2",width = "10",text = "LOGOUT",command = admin_logout).pack()
+
+
+def admin_logout():
+    global active_account_status
+    active_account_status = 0
+    admin_options_screen.destroy()
+
 
 
 
@@ -290,34 +321,85 @@ def calculate_bill(ID):
     Button(bill_screen,text="CLOSE",bg = "#91EAE3",height="2", width="300", command =close_bill_screen).pack()
 
 
-def make_complaint(username):
+def make_complaint():
     global make_complaint_screen
-    make_complaint_screen = Toplevel(main_screen) 
+    make_complaint_screen = Toplevel(user_screen) 
     make_complaint_screen.title("Making complaint")
     make_complaint_screen.geometry("500x500")
-    global complaint
-    complaint = StringVar
+    global userID_make
+    userID_make = StringVar()
+    global complaint_make
+    complaint_make = StringVar()
 
-    username_label = Label(make_complaint_screen,text="Enter your username")
-    username_label.pack()
-    username_entry= Entry(make_complaint_screen, textvariable=username)
-    username_entry.pack()
+    userID_label = Label(make_complaint_screen,text="Enter your username")
+    userID_label.pack()
+    userID_entry= Entry(make_complaint_screen, textvariable=userID_make)
+    userID_entry.pack()
    
 # Set complaint label
     complaint_lable = Label(make_complaint_screen, text=" Enter your complaint ")
     complaint_lable.pack()
     
 # Set complaint entry
-    complaint_entry = Entry(make_complaint_screen, textvariable=complaint)
+    complaint_entry = Entry(make_complaint_screen, textvariable=complaint_make)
     complaint_entry.pack()
-
-    set_radioButton()
-
-    
     Label(make_complaint_screen, text="").pack()
+    Button(make_complaint_screen, text="Submit", width=10, height=1, bg="#fcb603",command = giving_complaint).pack()
     
     # Set register button
-    Button(make_complaint_screen, text="Submit", width=20, height=2, bg="#fcb603",command = making_complaint).pack()
+def giving_complaint():
+    userID_info = userID_make.get()
+    complaint_info = complaint_make.get()
+    print(userID_info)
+    print(complaint_info)
+    making_complaint(userID_info,complaint_info)
+
+def seeing_complaints():
+   win = Tk()
+   win.geometry("700x350")
+  # Create an object of Style widget
+   style = ttk.Style()
+   style.theme_use('clam')
+   tree = ttk.Treeview(win, column=("UserID", "Issue",), show='headings', height=5)
+   tree.column("# 1", anchor=CENTER)
+   tree.heading("# 1", text="userID")
+   tree.column("# 2", anchor=CENTER)
+   tree.heading("# 2", text="Issue")
+   records = view_complaints()
+   for row in records:
+       tree.insert('', 'end', text="1", values=(row[0],row[1]))
+   tree.pack()
+
+   win.mainloop()
+
+
+
+
+
+
+
+
+    
+def deleting_complaint():
+    global delete_complaint_screen
+    global username
+    username = StringVar()
+    delete_complaint_screen =Toplevel(admin_options_screen)
+    delete_complaint_screen.title("Deleting complaints")
+    delete_complaint_screen.geometry("300x100")
+    username_label = Label(delete_complaint_screen,text="Enter your username")
+    username_label.pack()
+    username_entry= Entry(delete_complaint_screen, textvariable=username)
+    username_entry.pack()
+    
+    Label(delete_complaint_screen, text="").pack()
+    
+    # Set register button
+    Button(delete_complaint_screen, text="Delete", width=10, height=1, bg="#fcb603",command = remove_complaint).pack()
+
+def remove_complaint():
+    userID_info = username.get()
+    delete_complaint(userID_info)
 
 
     
@@ -368,17 +450,17 @@ def login_screen():
     Label(login_screen, text="Enter Username or Aadhar number").pack()
     Label(login_screen, text="").pack()
  
-    global username_verify
+    global userID_verify
     global password_verify
     global aadhar_verify
  
-    username_verify = StringVar()
+    userID_verify = StringVar()
     password_verify = StringVar()
     aadhar_verify = StringVar()
  
    
     Label(login_screen, text="Username ").pack()
-    username_login_entry = Entry(login_screen, textvariable=username_verify)
+    username_login_entry = Entry(login_screen, textvariable=userID_verify)
     username_login_entry.pack()
 
     Label(login_screen, text="Aadhar number ").pack()
@@ -421,23 +503,6 @@ def delete_admin_login_verify_failed_screen():
 
 
 
-def admin_options():
-    global admin_options_screen
-    admin_options_screen = Toplevel(main_screen)
-    admin_options_screen.title("Admin options")
-    admin_options_screen.geometry("300x200")
-    Label(admin_options_screen,text = "Choose from below").pack()
-    Label(admin_options_screen,text = "").pack()
-    Button(admin_options_screen,text = "Update customer details:",command = update_customer).pack()
-    Label(admin_options_screen,text = "").pack()
-
-    Button(admin_options_screen,height = "2",width = "10",text = "LOGOUT",command = admin_logout).pack()
-
-
-def admin_logout():
-    global active_account_status
-    active_account_status = 0
-    admin_options_screen.destroy()
 
 
 
@@ -450,7 +515,7 @@ def update_customer():
     global customer_units 
     global customer_months 
 
-    customer_ID = IntVar()
+    customer_ID = StringVar()
     customer_username = StringVar()
     customer_password = StringVar()
     customer_address = StringVar()

@@ -5,7 +5,7 @@ def bill_calculation(id):
     conn = sqlite3.connect('ElectricityBillingSystem.db')
     with conn:
         cursor = conn.cursor()
-    cursor.execute('SELECT Units,Months_due,Bill,Fine FROM Customer WHERE ID='+(str)(id))
+    cursor.execute('SELECT Units,Months_due,Bill,Fine FROM Customer WHERE userID=?',[id])
     records = cursor.fetchall()
     
     record = []
