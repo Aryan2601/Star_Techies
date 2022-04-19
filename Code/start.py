@@ -260,20 +260,20 @@ def User_account_screen(ID):
     user_screen = Toplevel(main_screen)
     user_screen.title("User Account")
     user_screen.geometry("400x400")
-    Label(user_screen,text = "Customer Details",bg="#fcb603", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(user_screen,text = "Customer Details",bg="#AFEEEE", width="300", height="2", font=("Calibri", 13)).pack()
     Label(user_screen,text = "").pack()
 
-    Label(user_screen,text = "USERNAME:"+record[0],bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "UNIQUE IDENTIFICATION NUMBER:"+record[1],bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "CUSTOMER ADDRESS:"+record[2],bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "PAYMENT MODE:"+record[3],bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "UNITS USED:"+(str)(record[4]),bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "MONTHS DUE:"+(str)(record[5]),bg="#BEDAD8", width="300", height="2", font=("Calibri", 10)).pack()
+    Label(user_screen,text = "USERNAME:"+record[0],bg="#f7f2b7", width="300", height="2", font=("Calibri", 10)).pack()
+    Label(user_screen,text = "UNIQUE IDENTIFICATION NUMBER:"+record[1],bg="#73d6e6", width="300", height="2", font=("Calibri", 10)).pack()
+    Label(user_screen,text = "CUSTOMER ADDRESS:"+record[2],bg="#f7f2b7", width="300", height="2", font=("Calibri", 10)).pack()
+    Label(user_screen,text = "PAYMENT MODE:"+record[3],bg="#73d6e6", width="300", height="2", font=("Calibri", 10)).pack()
+    Label(user_screen,text = "UNITS USED:"+(str)(record[4]),bg="#f7f2b7", width="300", height="2", font=("Calibri", 10)).pack()
+    Label(user_screen,text = "MONTHS DUE:"+(str)(record[5]),bg="#73d6e6", width="300", height="2", font=("Calibri", 10)).pack()
     
     
-    Button(user_screen,text="CALCULATE BILL",bg = "#91EAE3",height="2", width="300", command = partial(calculate_bill,ID)).pack()
-    Button(user_screen,text="Complaint box",bg = "#91EAE3",height="2", width="300", command = make_complaint).pack()
-    Button(user_screen,text="LOGOUT",bg = "#91EAE3",height="2", width="300", command =logout_dialog).pack()
+    Button(user_screen,text="CALCULATE BILL",bg = "#f57e07",height="2", width="300", command = partial(calculate_bill,ID)).pack()
+    Button(user_screen,text="Complaint box",bg = "#f57e07",height="2", width="300", command = make_complaint).pack()
+    Button(user_screen,text="LOGOUT",bg = "#f57e07",height="2", width="300", command =logout_dialog).pack()
 
 
 def logout_dialog():
@@ -667,7 +667,7 @@ def main_account_screen():
     main_screen.title("main_screen")
  
     # create a Form label 
-    Label(text="Electricity Billing system", bg="#fcb603", width="300", height="2", font=("Calibri", 13)).pack() 
+    Label(text="Electricity Billing system", bg="#87CEFA", width="300", height="2", font=("Calibri", 13)).pack() 
     Label(text="").pack() 
     # create Login Button 
     Button(text="Login", height="2", width="30", command = login_screen).pack()
@@ -679,15 +679,16 @@ def main_account_screen():
     Button(text = "Admin Login",height = "2",width = "30",command = admin_login_screen).pack()
     my_canvas = Canvas(main_screen,width = 800 , height = 700)
     my_canvas.pack(fill = "both" , expand= True)
-    bg = ImageTk.PhotoImage(file = "C:/Chethan/My first git project/Star_Techies/Code/elctric.jpg")
+    bg = ImageTk.PhotoImage(file = "/home/giwansharyan/Star_Techies/Code/elctric.jpg")
     #set image in canvas
     my_canvas.create_image(0,0,image = bg,anchor="nw")
     def resizer(e):
         global bg1,resized_bg,new_bg
-        bg1 = Image.open("C:/Chethan/My first git project/Star_Techies/Code/elctric.jpg")
+        bg1 = Image.open("/home/giwansharyan/Star_Techies/Code/start.py")
         resized_bg =bg1.resize((e.width,e.height))
         new_bg = ImageTk.PhotoImage(resized_bg)
         my_canvas.create_image(0,0,image = new_bg,anchor="nw")
     main_screen.mainloop()
  
 main_account_screen()
+
