@@ -635,7 +635,6 @@ def admin_login_screen():
  
     admin_username_verify = StringVar()
     admin_password_verify = StringVar()
- 
    
     Label(admin_login_screen, text="Username ").pack()
     username_login_entry = Entry(admin_login_screen, textvariable=admin_username_verify)

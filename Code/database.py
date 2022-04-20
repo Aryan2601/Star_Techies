@@ -31,10 +31,9 @@ def view_complaints():
     connection = sqlite3.connect("ElectricityBillingSystem.db")
     with connection:
         cursor = connection.cursor()
-    k=cursor.execute("Select Issue from Complaint where userID='chethan96045'")
-    k=cursor.fetchone()
-    print(k)
+    k=cursor.execute("Select * from Complaint")
     connection.commit()
+    return k
 
 def delete_complaint(ID):
     connection = sqlite3.connect("ElectricityBillingSystem.db")
