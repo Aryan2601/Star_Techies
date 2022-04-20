@@ -19,7 +19,6 @@ def making_complaint(userID,Issue):
     connection = sqlite3.connect("ElectricityBillingSystem.db")
     with connection:
         cursor = connection.cursor()
-    cursor.execute('DROP TABLE Complaint')
     cursor.execute('Create TABLE IF NOT EXISTS Complaint(userID TEXT PRIMARY KEY,Issue TEXT)')
     cursor.execute('INSERT INTO Complaint (userID,Issue) VALUES(?,?)',(str(userID),str(Issue)))
     k=cursor.execute("Select Issue from Complaint where userID='chethan96045'")
@@ -93,3 +92,14 @@ def update_customer_admin(ID,Name,password,address,units,month):
 
 
     connection.commit()
+
+def creating_Admin():
+    connection = sqlite3.connect("ElectricityBillingSystem.db")
+    with connection:
+        cursor = connection.cursor()
+    cursor.execute("CREATE TABLE Admin (username TEXT PRIMARY KEY , password TEXT)")
+    cursor.execute("INSERT INTO Admin(username,password) VALUES ('chethan','19243')")
+    cursor.execute("INSERT INTO Admin(username,password) VALUES ('charan','19232')")
+    cursor.execute("INSERT INTO Admin(username,password) VALUES ('Anand','19208')")
+    cursor.execute("INSERT INTO Admin(username,password) VALUES ('Aryan','19221')")
+    connection.commit()cd 

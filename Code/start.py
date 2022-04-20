@@ -233,16 +233,16 @@ def destroy_prev_log_out_screen():
 
 
 def login_successful():
-    global login_successful_screen
-    login_successful_screen = Toplevel(login_screen)
-    login_successful_screen.title("Login successful")
-    login_successful_screen.geometry("300x100")
-    Label(login_successful_screen,text = "Login Successful!").pack()
-    Button(login_successful_screen,text = "Proceed",command = destroy_login_successful_screen).pack()
+    global complaint_successful_screen
+    complaint_successful_screen = Toplevel(login_screen)
+    complaint_successful_screen.title("Login successful")
+    complaint_successful_screen.geometry("300x100")
+    Label(complaint_successful_screen,text = "Login Successful!").pack()
+    Button(complaint_successful_screen,text = "Proceed",command = destroy_login_successful_screen).pack()
 
 
 def destroy_login_successful_screen():
-    login_successful_screen.destroy()
+    complaint_successful_screen.destroy()
     login_screen.destroy()
 
 
@@ -353,6 +353,17 @@ def giving_complaint():
     print(userID_info)
     print(complaint_info)
     making_complaint(userID_info,complaint_info)
+    complaint_given_successful()
+
+
+def complaint_given_successful():
+    global complaint_successful_screen
+    complaint_successful_screen = Toplevel(User_account_screen)
+    complaint_successful_screen.title("complaint given successful")
+    complaint_successful_screen.geometry("300x100")
+    Label(complaint_successful_screen,text = "complaint given Successfulyl!").pack()
+    Button(complaint_successful_screen,text = "Proceed",command =complaint_successful_screen.destroy()).pack()
+
 
 def seeing_complaints():
    win = Tk()
@@ -397,12 +408,21 @@ def deleting_complaint():
     # Set register button
     Button(delete_complaint_screen, text="Delete", width=10, height=1, bg="#fcb603",command = remove_complaint).pack()
 
+
 def remove_complaint():
+    admin_options_screen.destroy()
     userID_info = username.get()
     delete_complaint(userID_info)
+    removing_successful()
 
 
-    
+def removing_successful():
+    global remove_successful_screen
+    remove_successful_screen = Toplevel(admin_options_screen)
+    remove_successful_screen.title("removal successful")
+    remove_successful_screen.geometry("300x100")
+    Label(remove_successful_screen,text = "deleted Successfulyl!").pack()
+    Button(remove_successful_screen,text = "Proceed",command =admin_options()).pack()    
 
     
 def bill_payment(ID):

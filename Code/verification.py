@@ -21,9 +21,21 @@ def login_verify(userID,aadhar,password):
 
     
 def admin_login_verify(username,password):
-    check=0
-    if(username == "Admin" and password == "Admin"):
+    conn = sqlite3.connect('ElectricityBillingSystem.db')
+    with conn:
+        cursor = conn.cursor()
+    cursor.execute('SELECT username,password FROM Admin')
+    records = cursor.fetchall()
+    check = 0
+    
+    
+    for row in records:
+        if(username == row[0] and password == row[1]):
             
-        check = 1
-        
+            check = 1
+            break
+    
     return check
+
+    
+    
