@@ -102,4 +102,4 @@ def creating_Admin():
     cursor.execute("INSERT INTO Admin(username,password) VALUES ('charan','19232')")
     cursor.execute("INSERT INTO Admin(username,password) VALUES ('Anand','19208')")
     cursor.execute("INSERT INTO Admin(username,password) VALUES ('Aryan','19221')")
-    connection.commit()cd 
+    connection.commit() 
