@@ -9,4 +9,15 @@ the main thing we are focusing on is the meter id since one customer may have on
 
 >Login page : Customer can login through this page.
 
->Customer details page :  Here we can see all the details of customer and he can calculate bill and can pay the bill. It also 
+>Customer details page :  Here we can see all the details of customer and he can calculate bill and can pay the bill. It also have complaint box option where customer can give
+                          complaint about issues with meter or power cuts.
+                          
+>Admin login page : Admin can login through this page.
+
+>Admin options page : Here admin have list of functionalities he can like update customer details , view complaint box , delete complaint.
+
+>Update customer page : In this page admin changes customer details if any and he will enter the units consumed at that month and monthly dues if any pending.
+
+So this is our electric billing system in which customer can view bill details and pay and admin can enter bill details and check the complaints given by customer.
+
+Thank you
