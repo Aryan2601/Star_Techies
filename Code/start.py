@@ -451,14 +451,13 @@ def giving_complaint():
 
 
 def complaint_given_successful():
-    print("entered")
     global complaint_successful_screen
-    complaint_successful_screen = Toplevel(User_account_screen)
-    complaint_successful_screen.title("complaint given successful")
+    complaint_successful_screen = Toplevel(main_screen)
+    complaint_successful_screen.title("removal successful")
     complaint_successful_screen.geometry("300x100")
-    Label(complaint_successful_screen,text = "complaint given Successfulyl!").pack()
-    make_complaint_screen.destroy()
-    Button(complaint_successful_screen,text = "Proceed",command =complaint_successful_screen.destroy()).pack()
+    Label(complaint_successful_screen,text = "deleted Successfulyl!").pack()
+    Button(complaint_successful_screen,text = "Proceed",command =make_complaint_screen.destroy()).pack()
+    complaint_successful_screen.destroy() 
 
 
 def seeing_complaints():
@@ -498,7 +497,6 @@ def deleting_complaint():
     Button(delete_complaint_screen, text="Delete", width=10, height=1, bg="#fcb603",command = remove_complaint).pack()
 
 def remove_complaint():
-    admin_options_screen.destroy()
     userID_info = username.get()
     delete_complaint(userID_info)
     removing_successful()
@@ -509,7 +507,9 @@ def removing_successful():
     remove_successful_screen.title("removal successful")
     remove_successful_screen.geometry("300x100")
     Label(remove_successful_screen,text = "deleted Successfulyl!").pack()
-    Button(remove_successful_screen,text = "Proceed",command =admin_options()).pack()    
+    Button(remove_successful_screen,text = "Proceed",command =delete_complaint_screen.destroy()).pack()
+    remove_successful_screen.destroy() 
+
 
     
 def bill_payment(ID):
