@@ -1,0 +1,12 @@
+We started to develop the electric billing system that will be efficient for both customer and provider of the service 
+the main thing we are focusing on is the meter id since one customer may have one or more meters.
+
+>We have done our project using tkinter and  python.
+
+>Initially we created some login and register pages for Admin and customer.
+
+>Register page : Customer can register using his name , aadhar no, address etc.
+
+>Login page : Customer can login through this page.
+
+>Customer details page :  Here we can see all the details of customer and he can calculate bill and can pay the bill. It also 
