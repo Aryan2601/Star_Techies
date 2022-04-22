@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+import tkinter
 from colorama import Cursor
 from numpy import delete
 from database import *
@@ -9,42 +10,11 @@ from calc import *
 from PIL import ImageTk,Image
 from functools import partial
 
-def register_user():
-    c = 0
-    userID_info = userID.get()
-    Name_info = Name.get()
-    password_info = password.get()
-    address_info = address.get()
-    aadhar_info = aadhar.get()
-    radiobutton_info = var.get()
-    print(radiobutton_info)
 
-    if( len(userID_info)>0 and len(Name_info)>0  and len(password_info)>0 and len(address_info)>0  and len(aadhar_info)>0  and radiobutton_info !=0):
-
-        if(len(password_info)<8):
-            invalid_password_register()
-        else:
-            c = 1
-        
-
-        if(len(str(aadhar_info))!=12):
-            invalid_aadhar_register()
-        else:
-            c = 1
-
-        if(c == 1):
-            
-            writeondb(userID_info,Name_info,password_info,aadhar_info,address_info,radiobutton_info)
-            #print("registeration success")
-            register_success()
-
-    else:
-        enter_all_details()
-        
 
 def enter_all_details():
     global enter_all_details_screen
-    enter_all_details_screen = Toplevel(register_screen)
+    enter_all_details_screen = Toplevel(register_Screen)
     enter_all_details_screen.title("Unscuccessful")
     enter_all_details_screen.geometry("300x100")
     Label(enter_all_details_screen,text = "Enter all fields.").pack()
@@ -57,7 +27,7 @@ def delete_enter_all_details_screen():
 
 def register_success():
     global register_success_screen
-    register_success_screen = Toplevel(register_screen)
+    register_success_screen = Toplevel(register_Screen)
     register_success_screen.title("Success!!!")
     register_success_screen.geometry("300x100")
     Label(register_success_screen,text = "Registration successful,You can login NOW!").pack()
@@ -66,13 +36,13 @@ def register_success():
 
 def delete_register_success_screen():
     register_success_screen.destroy()
-    register_screen.destroy()
+    register_Screen.destroy()
 
  
 
 def invalid_aadhar_register():
     global invalid_aadhar_screen
-    invalid_aadhar_screen = Toplevel(register_screen)
+    invalid_aadhar_screen = Toplevel(register_Screen)
     invalid_aadhar_screen.title("Unscuccessful")
     invalid_aadhar_screen.geometry("300x100")
     Label(invalid_aadhar_screen,text = "Enter valid UID").pack()
@@ -87,7 +57,7 @@ def delete_invalid_aadhar_register():
 
 def invalid_password_register():
     global invalid_password_screen
-    invalid_password_screen = Toplevel(register_screen)
+    invalid_password_screen = Toplevel(register_Screen)
     invalid_password_screen.title("Unsuccessful")
     invalid_password_screen.geometry("300x100")
     Label(invalid_password_screen,text = "Minimum 8 character password").pack()
@@ -102,11 +72,112 @@ def delete_invalid_password_register():
 
 
 def register():
-    global register_screen
-    register_screen = Toplevel(main_screen) 
-    register_screen.title("Register")
-    register_screen.geometry("500x500")
- 
+    def register_user():
+        c = 0
+        userID_info = userID_entry.get()
+        Name_info = Name_entry.get()
+        password_info = password_entry.get()
+        address_info = address_entry.get()
+        aadhar_info = aadhar_entry.get()
+        radiobutton_info = var.get()
+        if( len(userID_info)>0 and len(Name_info)>0  and len(password_info)>0 and len(address_info)>0  and len(aadhar_info)>0  and radiobutton_info !=0):
+
+            if(len(password_info)<8):
+                invalid_password_register()
+            else:
+                c = 1
+            
+
+            if(len(str(aadhar_info))!=12):
+                invalid_aadhar_register()
+            else:
+                c = 1
+
+            if(c == 1):
+                
+                writeondb(userID_info,Name_info,password_info,aadhar_info,address_info,radiobutton_info)
+                #print("registeration success")
+                register_success()
+
+        else:
+            enter_all_details()
+    global register_Screen
+    register_Screen = Toplevel(main_screen)
+    register_Screen.title('Register page')
+    screen_width = register_Screen.winfo_screenwidth()
+    screen_height = register_Screen.winfo_screenheight()
+    global Name
+    Name = StringVar()
+    global password 
+    password = StringVar()
+    global address 
+    address = StringVar()
+    global aadhar 
+    aadhar = StringVar()
+    global userID
+    userID = StringVar()
+    global var
+    var = IntVar()
+    window_width = (5*screen_width)//7
+    window_height = (5*screen_height)//7
+
+    center_x = int(screen_width/2-window_width/2)
+    center_y = int(screen_height/2-window_height/2)
+
+    register_Screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+    register_Screen.resizable(False,False)
+
+   # main_screen.iconbitmap('Images/logo.ico')
+    background_image = ImageTk.PhotoImage(Image.open('C:\Chethan\My first git project\Star_Techies\Code\Register_page.jpg').resize((window_width+100,window_height),Image.ANTIALIAS))
+    background_image_label = tkinter.Label(register_Screen, image=background_image)
+    background_image_label.image = background_image
+    background_image_label.place(x=0, y=0)
+    
+    register_frame = Frame(register_Screen, bg="white")
+    register_frame.place(x=window_width // 30, y=(window_height // 4), height=4*window_height //5,
+                      width=4 * window_width // 9)
+    heading_label =Label(register_Screen,text="REGISTER PAGE", width="30", height="2", font=("Calibri", 13))
+    heading_label.place(y=1* window_height // 20, x=7 * window_width // 20)
+    userID_label = Label(register_frame, text="userID", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    userID_entry = Entry(register_frame, font=("times new roman", 15), bg="lightgray")
+    userID_entry.focus()
+    Name_label = Label(register_frame, text="Name", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    Name_entry = Entry(register_frame, font=("times new roman", 15), bg="lightgray")
+    aadhar_label = Label(register_frame, text="Aadhar no.", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    aadhar_entry = Entry(register_frame, font=("times new roman", 15), bg="lightgray")
+    password_label = Label(register_frame, text="password", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    password_entry = Entry(register_frame, font=("times new roman", 15), bg="lightgray",show = "*")
+    address_label = Label(register_frame, text="Address", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    address_entry = Entry(register_frame, font=("times new roman", 15), bg="lightgray")
+    userID_label.place(y=1 * window_height // 20, x=window_width // 30)
+    userID_entry.place(y=1 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    Name_label.place(y=2.5 * window_height // 20, x=window_width // 30)
+    Name_entry.place(y=2.5 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    aadhar_label.place(y=4 * window_height // 20, x=window_width // 30)
+    aadhar_entry.place(y=4 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    password_label.place(y=5.5 * window_height // 20, x=window_width // 30)
+    password_entry.place(y=5.5 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    address_label.place(y=7 * window_height // 20, x=window_width // 30)
+    address_entry.place(y=7 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+
+    p=Label(register_frame, text="Enter payment mode", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    p.place(y=8.5 * window_height // 20, x=2.2 * window_width // 20)
+
+    R1 = Radiobutton(register_frame, text="Prepaid", variable=var, value=1)
+    R1.place(y=10 * window_height // 20, x=2.2 * window_width // 20)
+    R2 = Radiobutton(register_frame, text="Postpaid", variable=var, value=2)
+    R2.place(y=11.5 * window_height // 20, x=2.2 * window_width // 20)
+    
+    t=Label(register_frame, text="")
+    t.place(y=12.5 * window_height // 20, x=2.2 * window_width // 20)
+    
+    # Set register button
+    register_button=Button(register_frame, text="Register", command=register_user, font=("Ariel 15 bold"))
+    register_button.place(x=2.2*window_width // 30, y=14 * window_height // 20, height=window_height // 15,
+                       width=2 * window_width // 5 - 35)
+    
+        
+'''
 # Set text variables
     global Name
     Name = StringVar()
@@ -120,52 +191,52 @@ def register():
     userID = StringVar()
  
 # Set label for user's instruction
-    Label(register_screen, text="Please enter details below", bg="#fcb603").pack()
-    Label(register_screen, text="").pack()
+    Label(register_Screen, text="Please enter details below", bg="#fcb603").pack()
+    Label(register_Screen, text="").pack()
     
-    userID_lable = Label(register_screen, text="UserID ")
+    userID_lable = Label(register_Screen, text="UserID ")
     userID_lable.pack()
  
 # Set username entry
 # The Entry widget is a standard Tkinter widget used to enter or display a single line of text.
     
-    userID_entry = Entry(register_screen, textvariable=userID)
+    userID_entry = Entry(register_Screen, textvariable=userID)
     userID_entry.pack()
 # Set username label
-    Name_lable = Label(register_screen, text="Name ")
+    Name_lable = Label(register_Screen, text="Name ")
     Name_lable.pack()
  
 # Set username entry
 # The Entry widget is a standard Tkinter widget used to enter or display a single line of text.
     
-    Name_entry = Entry(register_screen, textvariable=Name)
+    Name_entry = Entry(register_Screen, textvariable=Name)
     Name_entry.pack()
    
 # Set password label
-    password_lable = Label(register_screen, text="Password * ")
+    password_lable = Label(register_Screen, text="Password * ")
     password_lable.pack()
     
 # Set password entry
-    password_entry = Entry(register_screen, textvariable=password, show='*')
+    password_entry = Entry(register_Screen, textvariable=password, show='*')
     password_entry.pack()
 
 
 #  set address label
-    address_lable = Label(register_screen,text = "Billing Address")
+    address_lable = Label(register_Screen,text = "Billing Address")
     address_lable.pack()
 
 
 #set address entry
-    address_entry = Entry(register_screen,textvariable=address)
+    address_entry = Entry(register_Screen,textvariable=address)
     address_entry.pack()
 
 
 #set Aadhar label
-    aadhar_lable = Label(register_screen,text = "Aadhar Number")
+    aadhar_lable = Label(register_Screen,text = "Aadhar Number")
     aadhar_lable.pack()
 
 #set Aadhar entry
-    aadhar_entry = Entry(register_screen,textvariable=aadhar)
+    aadhar_entry = Entry(register_Screen,textvariable=aadhar)
     aadhar_entry.pack()
 
 
@@ -173,53 +244,27 @@ def register():
     set_radioButton()
 
     
-    Label(register_screen, text="").pack()
+    Label(register_Screen, text="").pack()
     
     # Set register button
-    Button(register_screen, text="Register", width=10, height=1, bg="#fcb603",command = register_user).pack()
-
-
+    Button(register_Screen, text="Register", width=10, height=1, bg="#fcb603",command = register_user).pack()
+'''
+'''
 def set_radioButton():
     global var
     var = IntVar()
 
-    Label(register_screen,text = "Enter Payment mode").pack()
+    Label(update_customer_frame,text = "Enter Payment mode").pack()
 
-    R1 = Radiobutton(register_screen, text="Prepaid", variable=var, value=1)
+    R1 = Radiobutton(register_Screen, text="Prepaid", variable=var, value=1)
     R1.pack()
-    R2 = Radiobutton(register_screen, text="Postpaid", variable=var, value=2)
+    R2 = Radiobutton(register_Screen, text="Postpaid", variable=var, value=2)
     R2.pack()
 active_account_status = 0
 
+'''
+active_account_status = 0
 
-def login_verification():
-    userID=userID_verify.get()
-    password = password_verify.get()
-    aadhar_number = aadhar_verify.get()
-    global active_account_status
-    
-    if(active_account_status == 0):
-
-        if((len(userID)>0 and len(aadhar_number)>0) and len(password)>0): 
-            ID,check = login_verify(userID,aadhar_number,password)
-
-            
-            if(check == 1):
-                active_account_status = 1
-                login_successful()
-                User_account_screen(userID)
-
-            else:
-                login_verify_failed()
-
-
-
-        else:
-            login_verify_failed()
-
-    else:
-        log_out_previous()
-        
 def log_out_previous():
     global prev_log_out_screen
     prev_log_out_screen = Toplevel(login_screen)
@@ -248,32 +293,58 @@ def destroy_login_successful_screen():
 
 
 def User_account_screen(ID):
-    
-    record = []
-    records = get_data(ID)
-    print(len(records[0]))
-    for i in range(0,len(records[0])):
-        record.append(records[0][i])
-
-    
     global user_screen
     user_screen = Toplevel(main_screen)
-    user_screen.title("User Account")
-    user_screen.geometry("400x400")
-    Label(user_screen,text = "Customer Details",bg="#AFEEEE", width="300", height="2", font=("Calibri", 13)).pack()
-    Label(user_screen,text = "").pack()
+    user_screen.title('User account details')
 
-    Label(user_screen,text = "USERNAME:"+record[0],bg="#f7f2b7", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "UNIQUE IDENTIFICATION NUMBER:"+record[1],bg="#73d6e6", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "CUSTOMER ADDRESS:"+record[2],bg="#f7f2b7", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "PAYMENT MODE:"+record[3],bg="#73d6e6", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "UNITS USED:"+(str)(record[4]),bg="#f7f2b7", width="300", height="2", font=("Calibri", 10)).pack()
-    Label(user_screen,text = "MONTHS DUE:"+(str)(record[5]),bg="#73d6e6", width="300", height="2", font=("Calibri", 10)).pack()
+    screen_width = user_screen.winfo_screenwidth()
+    screen_height = user_screen.winfo_screenheight()
+   
+    window_width = (5*screen_width)//7
+    window_height = (5*screen_height)//7
+
+    center_x = int(screen_width/2-window_width/2)
+    center_y = int(screen_height/2-window_height/2)
+
+    user_screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+    user_screen.resizable(False,False)
+
+    # main_screen.iconbitmap('Images/logo.ico')
+    background_image = ImageTk.PhotoImage(Image.open('C:\Chethan\My first git project\Star_Techies\Code\index.jpg').resize((window_width+100,window_height),Image.ANTIALIAS))
+    background_image_label = tkinter.Label(user_screen, image=background_image)
+    background_image_label.image = background_image
+    background_image_label.place(x=0, y=0)
+    user_frame = Frame(user_screen, bg="white")
+    user_frame.place(x=window_width // 4, y=(window_height // 8), height=4*window_height //5,
+                        width=4 * window_width // 9)
+    record = []
+    records = get_data(ID)
+    print(records[0])
+    for i in range(0,len(records[0])):
+        record.append(records[0][i])
+    print(record)
+    userID_display_label = Label(user_frame,text = "USERID:"+str(record[0]),bg="#f7f2b7", width="50", height="2", font=("Calibri", 10))
+    Name_display_label =Label(user_frame,text = "NAME:"+str(record[1]),bg="#f7f2b7", width="50", height="2", font=("Calibri", 10))
+    aadhar_display_label=Label(user_frame,text = "UNIQUE IDENTIFICATION NUMBER:"+str(record[2]),bg="#73d6e6", width="50", height="2", font=("Calibri", 10))
+    address_display_label =Label(user_frame,text = "CUSTOMER ADDRESS:"+str(record[3]),bg="#f7f2b7", width="50", height="2", font=("Calibri", 10))
+    paymentmode_display_label =Label(user_frame,text = "PAYMENT MODE: "+str(record[4]),bg="#73d6e6", width="50", height="2", font=("Calibri", 10))
+    units_display_label =Label(user_frame,text = "UNITS USED:  "+(str)(record[5]),bg="#f7f2b7", width="50", height="2", font=("Calibri", 10))
+    month_display_label =Label(user_frame,text = "MONTHS DUE:  "+(str)(record[6]),bg="#73d6e6", width="50", height="2", font=("Calibri", 10))
     
-    
-    Button(user_screen,text="CALCULATE BILL",bg = "#f57e07",height="2", width="300", command = partial(calculate_bill,ID)).pack()
-    Button(user_screen,text="Complaint box",bg = "#f57e07",height="2", width="300", command = make_complaint).pack()
-    Button(user_screen,text="LOGOUT",bg = "#f57e07",height="2", width="300", command =logout_dialog).pack()
+    calculate_button =Button(user_frame,text="CALCULATE BILL",bg = "#f57e07",height="2", width="50", command = partial(calculate_bill,ID))
+    complaint_box =Button(user_frame,text="Complaint box",bg = "#f57e07",height="2", width="50", command = make_complaint)
+    logout_button = Button(user_frame,text="LOGOUT",bg = "#f57e07",height="2", width="50", command =logout_dialog)
+
+    userID_display_label.place(y=1 * window_height // 20, x=window_width // 30)
+    Name_display_label.place(y=2.5 * window_height // 20, x=window_width // 30)
+    aadhar_display_label.place(y=4 * window_height // 20, x=window_width // 30)
+    address_display_label.place(y=5.5 * window_height // 20, x=window_width // 30)
+    paymentmode_display_label.place(y=7 * window_height // 20, x=  window_width // 30)
+    units_display_label.place(y=8.5 * window_height // 20, x=window_width // 30)
+    month_display_label.place(y=10 * window_height // 20, x= window_width // 30)
+    calculate_button.place(y=11.5 * window_height // 20, x= window_width // 20, width=2 * window_width // 5 - 130)
+    complaint_box.place(y=13 * window_height // 20, x= window_width // 20, width=2 * window_width // 5 - 130)
+    logout_button.place(y=14.5 * window_height // 20, x= window_width // 20, width=2 * window_width // 5 - 130)
 
 
 def logout_dialog():
@@ -285,17 +356,40 @@ def logout_dialog():
 def admin_options():
     global admin_options_screen
     admin_options_screen = Toplevel(main_screen)
-    admin_options_screen.title("Admin options")
-    admin_options_screen.geometry("300x200")
-    Label(admin_options_screen,text = "Choose from below").pack()
-    Label(admin_options_screen,text = "").pack()
-    Button(admin_options_screen,text = "Update customer details:",command = update_customer).pack()
-    Label(admin_options_screen,text = "").pack()
-    Button(admin_options_screen,text = "  View complaint box:  ",command = seeing_complaints).pack()
-    Label(admin_options_screen,text = "").pack()
-    Button(admin_options_screen,text = "Delete complaint:",command = deleting_complaint).pack()
-    Label(admin_options_screen,text = "").pack()
-    Button(admin_options_screen,height = "2",width = "10",text = "LOGOUT",command = admin_logout).pack()
+    admin_options_screen.title('User account details')
+
+    screen_width = admin_options_screen.winfo_screenwidth()
+    screen_height = admin_options_screen.winfo_screenheight()
+   
+    window_width = (5*screen_width)//7
+    window_height = (5*screen_height)//7
+
+    center_x = int(screen_width/2-window_width/2)
+    center_y = int(screen_height/2-window_height/2)
+
+    admin_options_screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+    admin_options_screen.resizable(False,False)
+
+    # main_screen.iconbitmap('Images/logo.ico')
+    background_image = ImageTk.PhotoImage(Image.open('C:\Chethan\My first git project\Star_Techies\Code\windmills.jpg').resize((window_width+100,window_height),Image.ANTIALIAS))
+    background_image_label = tkinter.Label(admin_options_screen, image=background_image)
+    background_image_label.image = background_image
+    background_image_label.place(x=0, y=0)
+    admin_options_frame = Frame(admin_options_screen, bg="white")
+    admin_options_frame.place(x=window_width // 4, y=(window_height // 8), height=4*window_height //5,
+                        width=4 * window_width // 9)
+    print("correct")
+    heading_label =Label(admin_options_screen,text="ADMIN OPTIONS", width="30", height="2", font=("Calibri", 13))
+    heading_label.place(y=1* window_height // 20, x=7 * window_width // 20)
+    Label(admin_options_frame,text = "Choose from below").place(y=1 * window_height // 20, x=window_width // 12)
+    Button(admin_options_frame,bg = "#f57e07",height="2", width="50",text = "Update customer details:",command = update_customer).place(x=window_width // 13, y=2 * window_height // 20, height=window_height // 15,
+                        width=2 * window_width // 5 - 130)
+    Button(admin_options_frame,bg = "#f57e07",height="2", width="50",text = "  View complaint box:  ",command = seeing_complaints).place(x=window_width // 13, y=5 * window_height // 20, height=window_height // 15,
+                        width=2 * window_width // 5 - 130)
+    Button(admin_options_frame,bg = "#f57e07",height="2", width="50",text = "Delete complaint:",command = deleting_complaint).place(x=window_width // 13, y=8 * window_height // 20, height=window_height // 15,
+                        width=2 * window_width // 5 - 130)
+    Button(admin_options_frame,bg = "#f57e07",height="2", width="50",text = "LOGOUT",command = admin_logout).place(x=window_width // 13, y=11 * window_height // 20, height=window_height // 15,
+                        width=2 * window_width // 5 - 130)
 
 
 def admin_logout():
@@ -325,7 +419,7 @@ def make_complaint():
     global make_complaint_screen
     make_complaint_screen = Toplevel(user_screen) 
     make_complaint_screen.title("Making complaint")
-    make_complaint_screen.geometry("500x500")
+    make_complaint_screen.geometry("300x300")
     global userID_make
     userID_make = StringVar()
     global complaint_make
@@ -357,11 +451,13 @@ def giving_complaint():
 
 
 def complaint_given_successful():
+    print("entered")
     global complaint_successful_screen
     complaint_successful_screen = Toplevel(User_account_screen)
     complaint_successful_screen.title("complaint given successful")
     complaint_successful_screen.geometry("300x100")
     Label(complaint_successful_screen,text = "complaint given Successfulyl!").pack()
+    make_complaint_screen.destroy()
     Button(complaint_successful_screen,text = "Proceed",command =complaint_successful_screen.destroy()).pack()
 
 
@@ -383,19 +479,12 @@ def seeing_complaints():
 
    win.mainloop()
 
-
-
-
-
-
-
-
     
 def deleting_complaint():
     global delete_complaint_screen
     global username
     username = StringVar()
-    delete_complaint_screen =Toplevel(admin_options_screen)
+    delete_complaint_screen =Toplevel(main_screen)
     delete_complaint_screen.title("Deleting complaints")
     delete_complaint_screen.geometry("300x100")
     username_label = Label(delete_complaint_screen,text="Enter your username")
@@ -408,17 +497,15 @@ def deleting_complaint():
     # Set register button
     Button(delete_complaint_screen, text="Delete", width=10, height=1, bg="#fcb603",command = remove_complaint).pack()
 
-
 def remove_complaint():
     admin_options_screen.destroy()
     userID_info = username.get()
     delete_complaint(userID_info)
     removing_successful()
 
-
 def removing_successful():
     global remove_successful_screen
-    remove_successful_screen = Toplevel(admin_options_screen)
+    remove_successful_screen = Toplevel(main_screen)
     remove_successful_screen.title("removal successful")
     remove_successful_screen.geometry("300x100")
     Label(remove_successful_screen,text = "deleted Successfulyl!").pack()
@@ -462,40 +549,78 @@ def delete_login_verify_failed_screen():
 
 # define login function
 def login_screen():
+    def login_verification():
+        userID=userID_entry_login.get()
+        password = password_entry_login.get()
+        aadhar_number = aadhar_entry_login.get()
+        global active_account_status
+        
+        if(active_account_status == 0):
+
+            if((len(userID)>0 and len(aadhar_number)>0) and len(password)>0): 
+                ID,check = login_verify(userID,aadhar_number,password)
+
+                
+                if(check == 1):
+                    active_account_status = 1
+                    login_successful()
+                    User_account_screen(userID)
+
+                else:
+                    login_verify_failed()
+
+
+
+            else:
+                login_verify_failed()
+
+        else:
+            log_out_previous()
+        
     global login_screen
     login_screen = Toplevel(main_screen)
-    login_screen.title("Login")
-    login_screen.geometry("300x300")
-    Label(login_screen, text="Please enter details below to login").pack()
-    Label(login_screen, text="Enter Username or Aadhar number").pack()
-    Label(login_screen, text="").pack()
- 
-    global userID_verify
-    global password_verify
-    global aadhar_verify
- 
-    userID_verify = StringVar()
-    password_verify = StringVar()
-    aadhar_verify = StringVar()
- 
+    login_screen.title('Login page')
+
+    screen_width = login_screen.winfo_screenwidth()
+    screen_height = login_screen.winfo_screenheight()
    
-    Label(login_screen, text="Username ").pack()
-    username_login_entry = Entry(login_screen, textvariable=userID_verify)
-    username_login_entry.pack()
+    window_width = (5*screen_width)//7
+    window_height = (5*screen_height)//7
 
-    Label(login_screen, text="Aadhar number ").pack()
-    aadhar_login_entry = Entry(login_screen, textvariable=aadhar_verify)
-    aadhar_login_entry.pack()
+    center_x = int(screen_width/2-window_width/2)
+    center_y = int(screen_height/2-window_height/2)
 
+    login_screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+    login_screen.resizable(False,False)
 
+    # main_screen.iconbitmap('Images/logo.ico')
+    background_image = ImageTk.PhotoImage(Image.open('C:\Chethan\My first git project\Star_Techies\Code\login_page.jpg').resize((window_width+100,window_height),Image.ANTIALIAS))
+    background_image_label = tkinter.Label(login_screen, image=background_image)
+    background_image_label.image = background_image
+    background_image_label.place(x=0, y=0)
+    login_frame = Frame(login_screen, bg="white")
+    login_frame.place(x=window_width // 12, y=(window_height//3), height=4*window_height //7,
+                        width=4 * window_width // 9)
+    heading_label =Label(login_screen,text="LOGIN PAGE", width="30", height="2", font=("Calibri", 13))
+    heading_label.place(y=window_height //5, x=3 * window_width // 20)
+    userID_label_login = Label(login_frame, text="userID", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    userID_entry_login = Entry(login_frame, font=("times new roman", 15), bg="lightgray")
+    userID_entry_login.focus()
+    aadhar_label_login = Label(login_frame, text="Aadharno", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    aadhar_entry_login = Entry(login_frame, font=("times new roman", 15), bg="lightgray")
+    password_label_login = Label(login_frame, text="password", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    password_entry_login = Entry(login_frame, font=("times new roman", 15), bg="lightgray",show = "*")
+    userID_label_login.place(y=1 * window_height // 20, x=window_width // 30)
+    userID_entry_login.place(y=1 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    aadhar_label_login.place(y=2.5 * window_height // 20, x=window_width // 30)
+    aadhar_entry_login.place(y=2.5 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    password_label_login.place(y=4 * window_height // 20, x=window_width // 30)
+    password_entry_login.place(y=4 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
 
-    Label(login_screen, text="").pack()
-    Label(login_screen, text="Password * ").pack()
-    password__login_entry = Entry(login_screen, textvariable=password_verify, show= '*')
-    password__login_entry.pack()
-
-    Label(login_screen, text="").pack()
-    Button(login_screen, text="Login", width=10, height=1, command=login_verification).pack()
+    # Set register button
+    login_button=Button(login_frame, text="Login", command=login_verification, font=("Ariel 15 bold"))
+    login_button.place(x=2.2*window_width // 13, y=5.5 * window_height // 20, height=window_height // 15,
+                        width=2 * window_width // 15 - 35)
 
 def admin_login_successful():
     global admin_login_successful_screen
@@ -522,79 +647,94 @@ def delete_admin_login_verify_failed_screen():
     admin_login_verify_failed_screen.destroy()
 
 
-
-
-
-
 def update_customer():
+    def update_customer_get():
+        print("enter")
+        ID = userID_entry_update.get()
+        username = Name_entry_update.get()
+        password = password_entry_update.get()
+        units = units_entry_update.get()
+        months = months_entry_update.get()
+        address = address_entry_update.get()
+        update_customer_admin(ID,username,password,address,units,months)
+        global success_screen
+        success_screen = Toplevel(main_screen)
+        success_screen.title("success")
+        success_screen.geometry("300x100")
+        Label(success_screen,text = "Updation Successful!")
+        Button(success_screen,text = "OK",command = destroy_success_screen)
     global update_customer_screen
-    global customer_ID 
-    global customer_username 
-    global customer_password 
-    global customer_address 
-    global customer_units 
-    global customer_months 
-
-    customer_ID = StringVar()
-    customer_username = StringVar()
-    customer_password = StringVar()
-    customer_address = StringVar()
-    customer_units = IntVar()
-    customer_months = IntVar()
-
-
     update_customer_screen = Toplevel(admin_options_screen)
-    update_customer_screen.title("UPDATE")
-    update_customer_screen.geometry("300x350")
-    Label(update_customer_screen,text = "Enter ID").pack()
-    Entry(update_customer_screen,textvariable = customer_ID).pack()
+    update_customer_screen.title('Update customer details')
+    screen_width = update_customer_screen.winfo_screenwidth()
+    screen_height = update_customer_screen.winfo_screenheight()
+    global Name
+    Name = StringVar()
+    global password 
+    password = StringVar()
+    global address 
+    address = StringVar()
+    global aadhar 
+    aadhar = StringVar()
+    global userID
+    userID = StringVar()
+    global var
+    var = IntVar()
+    window_width = (5*screen_width)//7
+    window_height = (5*screen_height)//7
 
-    Label(update_customer_screen,text = "").pack()
+    center_x = int(screen_width/2-window_width/2)
+    center_y = int(screen_height/2-window_height/2)
 
-    Label(update_customer_screen,text = "Enter customer username to be updated").pack()
-    Entry(update_customer_screen,textvariable = customer_username).pack()
+    update_customer_screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+    update_customer_screen.resizable(False,False)
 
-
-    Label(update_customer_screen,text = "Enter password to be updated").pack()
-    Entry(update_customer_screen,textvariable = customer_password,show = "*").pack()
-
-    Label(update_customer_screen,text = "Enter Address to be updated").pack()
-    Entry(update_customer_screen,textvariable = customer_address).pack()
-
-    Label(update_customer_screen,text = "Enter units to be updated").pack()
-    Entry(update_customer_screen,textvariable = customer_units).pack()
-
-    Label(update_customer_screen,text = "Enter monnths due").pack()
-    Entry(update_customer_screen,textvariable = customer_months).pack()
-
-
-    Button(update_customer_screen,text = "UPDATE" , height = "2", width = "10",command = update_customer_get).pack()
-    Label(update_customer_screen,text = "").pack()
-
-    Button(update_customer_screen,text = "CLOSE",height = "2",width = "10",command = destroy_update_customer_screen).pack()
+   # main_screen.iconbitmap('Images/logo.ico')
+    background_image = ImageTk.PhotoImage(Image.open('C:\Chethan\My first git project\Star_Techies\Code\elctric.jpg').resize((window_width+100,window_height),Image.ANTIALIAS))
+    background_image_label = tkinter.Label(update_customer_screen, image=background_image)
+    background_image_label.image = background_image
+    background_image_label.place(x=0, y=0)
+    update_customer_frame = Frame(update_customer_screen, bg="white")
+    update_customer_frame.place(x=window_width // 30, y=(window_height // 4), height=4*window_height //5,
+                      width=4 * window_width // 9)
+    heading_label =Label(update_customer_screen,text="UPDATE CUSTOMER PAGE", width="30", height="2", font=("Calibri", 13))
+    heading_label.place(y=1* window_height // 20, x=7 * window_width // 20)
+    userID_label_update = Label(update_customer_frame, text="userID", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    userID_entry_update = Entry(update_customer_frame, font=("times new roman", 15), bg="lightgray")
+    userID_entry_update.focus()
+    Name_label_update = Label(update_customer_frame, text="Name", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    Name_entry_update = Entry(update_customer_frame, font=("times new roman", 15), bg="lightgray")
+    password_label_update = Label(update_customer_frame, text="password", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    password_entry_update = Entry(update_customer_frame, font=("times new roman", 15), bg="lightgray",show = "*")
+    address_label_update = Label(update_customer_frame, text="Address", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    address_entry_update = Entry(update_customer_frame, font=("times new roman", 15), bg="lightgray")
+    units_label_update = Label(update_customer_frame, text="Units", font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    units_entry_update = Entry(update_customer_frame, font=("times new roman", 15), bg="lightgray")
+    months_label_update = Label(update_customer_frame, text="Months due" ,font=("Goudy old style", 15, "bold"), fg="grey", bg="white")
+    months_entry_update = Entry(update_customer_frame, font=("times new roman", 15), bg="lightgray")
+    userID_label_update.place(y=1 * window_height // 20, x=window_width // 30)
+    userID_entry_update.place(y=1 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    Name_label_update.place(y=2.5 * window_height // 20, x=window_width // 30)
+    Name_entry_update.place(y=2.5 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    password_label_update.place(y=4 * window_height // 20, x=window_width // 30)
+    password_entry_update.place(y=4 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    address_label_update.place(y=5.5 * window_height // 20, x=window_width // 30)
+    address_entry_update.place(y=5.5 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    units_label_update.place(y=7 * window_height // 20, x=window_width // 30)
+    units_entry_update.place(y=7 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    months_label_update.place(y=8.5 * window_height // 20, x=window_width // 30)
+    months_entry_update.place(y=8.5 * window_height // 20, x=2.2 * window_width // 20, width=2 * window_width // 5 - 130)
+    # Set register button
+    update_button=Button(update_customer_frame, text="Update", command=update_customer_get, font=("Ariel 15 bold"))
+    update_button.place(x=2.2*window_width // 30, y=10 * window_height // 20, height=window_height // 15,
+                       width=2 * window_width // 5 - 35)
+    Button(update_customer_screen,text = "CLOSE",height = "2",width = "10",command = destroy_update_customer_screen).place(x=2.2*window_width // 30, y=18 * window_height // 20, 
+    height=window_height // 15,width=2 * window_width // 5 - 35)
 
 def destroy_update_customer_screen():
     update_customer_screen.destroy()
 
 
-
-
-def update_customer_get():
-    print("enter")
-    ID = customer_ID.get()
-    username = customer_username.get()
-    password = customer_password.get()
-    address = customer_address.get()
-    units = customer_units.get()
-    months = customer_months.get()
-
-    update_customer_admin(ID,username,password,address,units,months)
-    global success_screen
-    success_screen = Toplevel(update_customer_screen)
-    success_screen.title("success")
-    success_screen.geometry("300x100")
-    Label(success_screen,text = "Updation Successful!").pack()
-    Button(success_screen,text = "OK",command = destroy_success_screen).pack()
 
 def destroy_success_screen():
     success_screen.destroy()
@@ -602,7 +742,7 @@ def destroy_success_screen():
 
 def admin_logout_previous():
     global admin_prev_log_out_screen
-    admin_prev_log_out_screen = Toplevel(update_customer_screen)
+    admin_prev_log_out_screen = Toplevel(register_Screen)
     admin_prev_log_out_screen.title("INVALID")
     admin_prev_log_out_screen.geometry("300x100")
     Label(admin_prev_log_out_screen,text = "Log out of currently logged in account!").pack()
@@ -681,32 +821,37 @@ def main_account_screen():
 # add command=register in button widget
  
     
-    main_screen = Tk()
-    main_screen.geometry("800x700")
-    main_screen.title("main_screen")
- 
-    # create a Form label 
+    main_screen = tkinter.Tk()
+    main_screen.title('Login page')
+    screen_width = main_screen.winfo_screenwidth()
+    screen_height = main_screen.winfo_screenheight()
+
+    window_width = (5*screen_width)//7
+    window_height = (5*screen_height)//7
+
+    center_x = int(screen_width/2-window_width/2)
+    center_y = int(screen_height/2-window_height/2)
+
+    main_screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
+   # main_screen.iconbitmap('Images/logo.ico')
+    background_image = ImageTk.PhotoImage(Image.open('C:\Chethan\My first git project\Star_Techies\Code\elctric.jpg').resize((window_width+100,window_height),Image.ANTIALIAS))
+    background_image_label = tkinter.Label(main_screen, image=background_image)
+    background_image_label.image = background_image
+    background_image_label.place(x=0, y=0)
+    main_screen.resizable(False,False)
+
     Label(text="Electricity Billing system", bg="#87CEFA", width="300", height="2", font=("Calibri", 13)).pack() 
     Label(text="").pack() 
     # create Login Button 
-    Button(text="Login", height="2", width="30", command = login_screen).pack()
+    Button(text="Login", height="4", width="40", command = login_screen).pack()
     Label(text="").pack() 
 
 
-    Button(text="Register", height="2", width="30", command=register).pack()
+    Button(text="Register", height="4", width="40", command=register).pack()
     Label(text = "").pack()
-    Button(text = "Admin Login",height = "2",width = "30",command = admin_login_screen).pack()
-    my_canvas = Canvas(main_screen,width = 800 , height = 700)
-    my_canvas.pack(fill = "both" , expand= True)
-    bg = ImageTk.PhotoImage(file = "C:\Chethan\My first git project\Star_Techies\Code\elctric.jpg")
-    #set image in canvas
-    my_canvas.create_image(0,0,image = bg,anchor="nw")
-    def resizer(e):
-        global bg1,resized_bg,new_bg
-        bg1 = Image.open("C:\Chethan\My first git project\Star_Techies\Code\start.py")
-        resized_bg =bg1.resize((e.width,e.height))
-        new_bg = ImageTk.PhotoImage(resized_bg)
-        my_canvas.create_image(0,0,image = new_bg,anchor="nw")
+    Button(text = "Admin Login",height = "4",width = "40",command = admin_login_screen).pack()
+
     main_screen.mainloop()
  
 main_account_screen()

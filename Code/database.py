@@ -15,15 +15,11 @@ def writeondb(userID,Name,password,aadhar,address,radio_button):
     connection.commit()
 
 def making_complaint(userID,Issue):
-    print(userID,Issue)
     connection = sqlite3.connect("ElectricityBillingSystem.db")
     with connection:
         cursor = connection.cursor()
     cursor.execute('Create TABLE IF NOT EXISTS Complaint(userID TEXT PRIMARY KEY,Issue TEXT)')
     cursor.execute('INSERT INTO Complaint (userID,Issue) VALUES(?,?)',(str(userID),str(Issue)))
-    k=cursor.execute("Select Issue from Complaint where userID='chethan96045'")
-    k=cursor.fetchone()
-    print(k)
     connection.commit()
 
 def view_complaints():
@@ -69,8 +65,7 @@ def update_customer_admin(ID,Name,password,address,units,month):
     id = (str)(ID)
     Units = (str)(units)
     Month = (str)(month)
-
-    
+    address =(str)(address)
     connection = sqlite3.connect('ElectricityBillingSystem.db')
     with connection:
         cursor = connection.cursor()
@@ -84,10 +79,10 @@ def update_customer_admin(ID,Name,password,address,units,month):
     if(len(address) > 0):
          cursor.execute('UPDATE Customer SET Address = ? WHERE userID = ?',(address,id))
 
-    if(units > 0):
+    if(units!= 0):
          cursor.execute('UPDATE Customer SET Units = ? WHERE userID = ?',(Units,id))
 
-    if(month > 0):
+    if(Month!= 0):
          cursor.execute('UPDATE Customer SET Months_due = ? WHERE userID = ?',(Month,id))
 
 
